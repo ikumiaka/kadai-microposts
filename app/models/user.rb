@@ -26,4 +26,20 @@ class User < ApplicationRecord
   def following?(other_user)
     self.followings.include?(other_user)
   end
+  
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_microposts, through: :favorites, source: :micropost
+  
+  def feed_microposts
+    Micropost.where(user_id: self.following_ids + [self.id])
+  end
+  
+  def favorite(micropost)
+  end
+  
+  def unfavorite(micropost)
+  end
+  
+  def favorite?(micropost)
+  end
 end
