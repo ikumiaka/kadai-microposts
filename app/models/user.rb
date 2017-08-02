@@ -3,7 +3,7 @@ class User < ApplicationRecord
   validates :name, presence: true, length: { maximum: 50 }
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
-                    uniqueness: { case_sensitve: false }
+                    uniqueness: { case_sensitive: false }
   has_secure_password
   
   has_many :microposts
@@ -37,12 +37,12 @@ class User < ApplicationRecord
   def favorite(micropost)
     self.favorites.find_or_create_by(micropost_id: micropost.id)
   end
-  
+
   def unfavorite(micropost)
     favorite = self.favorites.find_by(micropost_id: micropost.id)
     favorite.destroy if favorite
   end
-  
+
   def favorite?(micropost)
     self.favorite_microposts.include?(micropost)
   end
